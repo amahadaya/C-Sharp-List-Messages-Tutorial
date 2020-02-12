@@ -40,7 +40,7 @@ namespace ListRecordings {
                     Message message = element as Message;
 
                     // Process recording element
-                    Console.Write(message);
+                    Console.Write(message.getText);
                 }
             }
         }
