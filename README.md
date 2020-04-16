@@ -1,7 +1,7 @@
 
 # C# - List Messages Tutorial
 
-This project serves as a guide to help you build an application with FreeClimb. View this tutorial on [FreeClimb.com](https://docs.freeclimb.com/docs/list-recordings#section-c). Specifically, the project will:
+This project serves as a guide to help you build an application with FreeClimb. View this tutorial on [FreeClimb.com](https://docs.freeclimb.com/docs/how-to-list-messages#section-c). Specifically, the project will:
 
 - List the SMS messages on your account
 
