@@ -1,48 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using com.freeclimb.api;
-using com.freeclimb.api.message;
+using freeclimb.Api;
+using freeclimb.Client;
+using freeclimb.Model;
 
-namespace ListRecordings {
 
-  class Program {
-    public static string getFreeClimbAccountId () {
-      return System.Environment.GetEnvironmentVariable("ACCOUNT_ID");
-    }
-    public static string getFreeClimbApiKeys () {
-      return System.Environment.GetEnvironmentVariable("API_KEY");
-    }
+namespace ListRecordings
+{
+
+    public class Program
+    {
+        public static string getFreeClimbAccountId()
+        {
+            return System.Environment.GetEnvironmentVariable("ACCOUNT_ID");
+        }
+        public static string getFreeClimbApiKeys()
+        {
+            return System.Environment.GetEnvironmentVariable("API_KEY");
+        }
+
+        public static string getFromNumber()
+        {
+            return System.Environment.GetEnvironmentVariable("FROM_NUMBER");
+        }
+
+        public static string getToNumber()
+        {
+            return System.Environment.GetEnvironmentVariable("TO_NUMBER");
+        }
 
         static void Main(string[] args)
         {
             // Create FreeClimbClient object
-            FreeClimbClient client = new FreeClimbClient(getFreeClimbAccountId(), getFreeClimbApiKeys());
+            //FreeClimbClient client = new FreeClimbClient(getFreeClimbAccountId(), getFreeClimbApiKeys());
+            Configuration config = new Configuration();
+            config.BasePath = "https://www.freeclimb.com/apiserver/";
+            config.Username = getFreeClimbAccountId();
+            config.Password = getFreeClimbApiKeys();
+            DefaultApi Api = new DefaultApi(config);
 
-            // Invoke get method to retrieve initial list of recording information
-            MessageList messageList = client.getMessagesRequester.get();
+            string to = getToNumber();
+            Console.WriteLine(to);
+            // Use as env variable rather than defining it in the code
+            string from = getFromNumber();
 
-            // Check if list is empty by checking total size of the list
-            if (messageList.getTotalSize > 0)
+            MessagesList response = Api.ListSmsMessages(to, from, "2022-12-12 15:00:00", "2022-12-12 22:00:00", "outbound");
+
+            Console.WriteLine(response.Messages);
+
+            for (int i = 0; i < response.Messages.Count; i++)
             {
-                // retrieve all recording for server
-                while (messageList.getLocalSize < messageList.getTotalSize)
-                {
-                    messageList.loadNextPage();
-                }
-
-                // Convert current pages recording information to a linked list
-                LinkedList<IFreeClimbCommon> commonList = messageList.export();
-
-                // Loop through linked list to process recording information
-                foreach (IFreeClimbCommon element in commonList)
-                {
-                    // Cast each element to the Recording element for processing
-                    Message message = element as Message;
-
-                    // Process recording element
-                    Console.Write(message.getText);
-                }
+                Console.WriteLine(response.Messages[i].Text);
             }
+
         }
-  }
+
+    }
 }
