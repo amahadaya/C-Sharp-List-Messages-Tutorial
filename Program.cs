@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using freeclimb.Api;
 using freeclimb.Client;
+using freeclimb.Enums;
 using freeclimb.Model;
 
 
@@ -44,7 +45,7 @@ namespace ListRecordings
             // Use as env variable rather than defining it in the code
             string from = getFromNumber();
 
-            MessagesList response = Api.ListSmsMessages(to, from, "2022-12-12 15:00:00", "2022-12-12 22:00:00", "outbound");
+            MessagesList response = Api.ListSmsMessages(to, from, "2022-12-12 15:00:00", "2023-05-12 12:00:00", MessageDirection.OUTBOUND);
 
             Console.WriteLine(response.Messages);
 
